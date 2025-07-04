@@ -93,4 +93,4 @@ const access = {
     admin:true,
     user:true,
     guest:false
-}
+} as const

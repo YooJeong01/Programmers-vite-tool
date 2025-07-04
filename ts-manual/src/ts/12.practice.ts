@@ -158,6 +158,11 @@ getName({name:'tiger',age:30})
 // 제네릭으로 받아온 T가 배열이라면 앞 수행(배열 아이템 하나하나를 타입 추론 전달). 아니라면 아무것도 안 함
 type ElementType<T> = T extends (infer U)[] ? U : never;
 
+type P<T> = T extends Promise<infer U> ? U : T;
+
+type A = P<Promise<string>>;
+type B = P<number>;
+
 
 // infer가 전달한 타입을 사용할때는 ElementType<> 으로 사용
 // ElementType<T[]> 들어오는게 배열이 맞다면 infer U 동작

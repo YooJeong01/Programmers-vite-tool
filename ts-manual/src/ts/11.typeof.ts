@@ -9,6 +9,8 @@ const user = {
 }
 
 // 이렇게 타입을 전달할 수 있다
+type _User = typeof user;
+
 type User = typeof user;
 
 if(typeof user === 'string'){
@@ -23,7 +25,7 @@ const settings = {
     theme:'dark',
     fontSize:16,
     language:'ko'
-}
+}as const
 
 // typeof 뒤에는 js 객체만 올 수 있다
 // typeof User 불가능 (User는 ts 타입이다)

@@ -38,7 +38,7 @@ export interface Company {
 }
 
 
-export interface PokeData {
+export interface Pokemon {
     abilities:                Ability[];
     base_experience:          number;
     cries:                    Cries;
