@@ -1,6 +1,6 @@
 import { gsap } from "gsap";
 import { main } from "./main";
-import { deleteMemo, insertMemo } from "./service/service";
+import { deleteMemo, insertMemo, sortMemo } from "./service/service";
 import type { Tables } from "./supabase/database.types";
 
 // 드래그 될 객체 타입 선언
@@ -72,6 +72,7 @@ export function handleDragEnd(){
         draggingEl.classList.remove('dragging');
         draggingEl = null;
     }
+    sortMemo();
 }
 
 export async function handleDelete(e:MouseEvent){
@@ -108,7 +109,8 @@ export function handleCreate(e:MouseEvent){
   insertMemo({
     title:title.value,
     description:description.value,
-    priority:priority.value as Tables<'memo'>['priority']
+    priority:priority.value as Tables<'memo'>['priority'],
+    position: document.querySelectorAll('article').length
   });
 
   title.value = '';

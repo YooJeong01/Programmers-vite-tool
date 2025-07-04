@@ -13,7 +13,10 @@ import { supabase } from "../supabase/supabase"
 
 export async function fetchMemo(){
 
-    const {data, error} = await supabase.from('memo').select()
+    const {data, error} = await supabase
+    .from('memo')
+    .select()
+    .order('position', {ascending:true})
     
     // 이런식으로 테이블에서 값을 바로 뽑아올 수 있다
     // let a:Tables<'memo'>['priority']
@@ -36,10 +39,12 @@ export async function deleteMemo(id:number){
   const response = await supabase
   .from('memo')
   .delete()
-  .eq('id', id)
+  .eq('id', id) // 동일한지 비교해줌
   .select() // 삭제한 데이터를 받아올수도 있다
 
+
   fetchMemo();
+  sortMemo();
 }
 
 /**
@@ -50,12 +55,14 @@ export async function deleteMemo(id:number){
 export async function insertMemo({
     title, 
     description, 
-    priority
-}: Pick<Tables<'memo'>,'title'|'description'|'priority'>){
+    priority,
+    position,
+}: Pick<Tables<'memo'>,'title'|'description'|'priority'|'position'>){
     const {error} = await supabase.from('memo').insert({
         title,
         description,
-        priority
+        priority,
+        position
     })
 
     fetchMemo()
@@ -63,4 +70,15 @@ export async function insertMemo({
     const tl = gsap.timeline()
     .to('.pop', {y:'100%', ease:'power3.inOut'})
     .to('#dialog', {autoAlpha:0, duration:0.2})
+}
+
+
+export function sortMemo(){
+    const sortedItems = document.querySelectorAll('article');
+    sortedItems.forEach( async(item, index)=>{
+        await supabase
+        .from('memo')
+        .update({position:index})
+        .eq('id',+item.dataset.id!) // id를 숫자로 만들고 단언해주기
+    })
 }
