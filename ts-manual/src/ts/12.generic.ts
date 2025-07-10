@@ -53,7 +53,7 @@ const r2:Response<{name:string, age?:number}> = {
 
 
 
-
+// extends {}는 최소한으로 {}는 포함해야하며 그보다 많은건 상관없다
 function getById<T extends {id:number}>(item:T):number{
      return item.id
 }
